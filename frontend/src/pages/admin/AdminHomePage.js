@@ -58,6 +58,7 @@ const getStats = (studentsList, sclassesList, teachersList) => [
 
 const AdminHomePage = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const { studentsList } = useSelector((state) => state.student);
   const { sclassesList } = useSelector((state) => state.sclass);
@@ -92,8 +93,7 @@ const AdminHomePage = () => {
 
         <Typography
           variant="body2"
-          color="text.secondary"
-          sx={{ mt: 0.5 }}
+sx={{ mt: 0.5, color: theme.palette.text.secondary }}
         >
           Here's what's happening across your institution today.
         </Typography>

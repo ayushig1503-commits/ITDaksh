@@ -39,7 +39,7 @@ const ShowTeachers = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [showPopup, setShowPopup] = React.useState(false);
-  const [message, setMessage] = React.useState("");
+  const [message] = React.useState("");
 
   useEffect(() => {
     if (currentUser?._id) {

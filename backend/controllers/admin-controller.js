@@ -5,17 +5,25 @@ const { audit } = require('../utils/audit.js');
 // ================= REGISTER =================
 const adminRegister = async (req, res) => {
     try {
-        const existingAdminByEmail = await Admin.findOne({ email: req.body.email });
-        const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
+        const { name, email, password, schoolName } = req.body;
 
+        // CRITICAL FIX: Block blank fields from reaching the database
+        if (!name || !email || !password || !schoolName) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        const existingAdminByEmail = await Admin.findOne({ email });
+        const existingSchool = await Admin.findOne({ schoolName });
+
+        // CRITICAL FIX: Added .status(400) to stop frontend from thinking this is a success
         if (existingAdminByEmail) {
-            return res.send({ message: 'Email already exists' });
+            return res.status(400).json({ message: 'Email already exists' });
         }
         else if (existingSchool) {
-            return res.send({ message: 'School name already exists' });
+            return res.status(400).json({ message: 'School name already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const admin = new Admin({
             ...req.body,
@@ -35,10 +43,10 @@ const adminRegister = async (req, res) => {
         });
 
         result.password = undefined;
-        res.send(result);
+        res.status(201).send(result);
 
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ message: "Server error during registration", error: err.message });
     }
 };
 
@@ -47,26 +55,27 @@ const adminLogIn = async (req, res) => {
     const email = req.body.email?.trim();
     const password = req.body.password?.trim();
 
+    // CRITICAL FIX: Shifted to status 400
     if (!email || !password) {
-        return res.send({ message: "Email and password are required" });
+        return res.status(400).json({ message: "Email and password are required" });
     }
 
     try {
         let admin = await Admin.findOne({ email });
 
+        // CRITICAL FIX: Shifted to status 404
         if (!admin) {
-                await audit(req, {
+            await audit(req, {
                 userId: null,
                 userRole: "admin",
                 action: "LOGIN_FAILURE",
                 target: "auth",
                 details: "Login failed: Account not found",
             });
-            return res.send({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         const isHashed = admin.password && admin.password.startsWith('$2b$');
-
         let isMatch = false;
 
         if (isHashed) {
@@ -97,7 +106,7 @@ const adminLogIn = async (req, res) => {
             res.send(admin);
 
         } else {
-                await audit(req, {
+            await audit(req, {
                 userId: admin._id,
                 userRole: "admin",
                 action: "LOGIN_FAILURE",
@@ -106,7 +115,8 @@ const adminLogIn = async (req, res) => {
                 details: "Login failed: Incorrect password",
             });
 
-            res.send({ message: "Invalid password" });
+            // CRITICAL FIX: Shifted to status 401 Unauthorized
+            res.status(401).json({ message: "Invalid password" });
         }
 
     } catch (err) {
@@ -123,7 +133,7 @@ const getAdminDetail = async (req, res) => {
             admin.password = undefined;
             res.send(admin);
         } else {
-            res.send({ message: "No admin found" });
+            res.status(404).json({ message: "No admin found" });
         }
 
     } catch (err) {

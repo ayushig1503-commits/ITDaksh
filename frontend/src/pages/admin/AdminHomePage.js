@@ -49,7 +49,7 @@ const getStats = (studentsList, sclassesList, teachersList) => [
   },
   {
     title: "Fees Collected",
-    value: 95000,
+    value: 0,
     icon: <CurrencyRupee />,
     prefix: "₹",
     color: 'success.main'

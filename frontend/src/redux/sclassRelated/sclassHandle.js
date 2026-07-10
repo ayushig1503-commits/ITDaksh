@@ -180,7 +180,7 @@ export const getMarkingScheme = (classGroupId, schoolId) => async (dispatch) => 
 export const getSclassByClassGroup = (id) => async (dispatch) => {
     dispatch(getRequest());
     try {
-        const url = `${process.env.REACT_APP_BASE_URL}SclassList/${id}`;
+        const url = `${process.env.REACT_APP_BASE_URL}/SclassList/${id}`;
         console.log("DEBUG [Handle]: Axios Request to URL:", url);
         
         const result = await axios.get(url);

@@ -7,9 +7,11 @@ import {
     Typography, 
     Checkbox, 
     FormControlLabel, 
-    TextField, 
-    IconButton, 
+    OutlinedInput, // Changed to OutlinedInput for cleaner rendering without floating labels
+    FormHelperText,
+    FormControl,
     InputAdornment, 
+    IconButton,
     Stack,
     Link,
     Container
@@ -60,6 +62,7 @@ const AdminRegisterPage = () => {
             return;
         }
 
+        // Verify with your backend if key should be 'name' or 'adminName'
         const fields = { name, email, password, role, schoolName };
         setLoader(true);
         dispatch(registerUser(fields, role));
@@ -77,20 +80,22 @@ const AdminRegisterPage = () => {
             setMessage(response);
             setShowPopup(true);
             setLoader(false);
-        } else if (status === 'error') {
+        } else if (status === 'error' || error) { // CRITICAL FIX: Turned off loader if standard network error hits
             setLoader(false);
+            if (error) {
+                setMessage(typeof error === 'string' ? error : "An error occurred");
+                setShowPopup(true);
+            }
         }
     }, [status, currentUser, currentRole, navigate, error, response]);
 
     return (
         <PageWrap>
-            {/* Added Back Button like Login Page */}
             <BackNav onClick={() => navigate(-1)}>
                 <ChevronLeft sx={{ fontSize: 18, mr: 0.5 }} /> Back
             </BackNav>
 
             <Container maxWidth="sm">
-                {/* Centering Wrapper */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     
                     <Typography variant="h1" sx={{ textAlign: 'center', mb: 1 }}>
@@ -102,83 +107,77 @@ const AdminRegisterPage = () => {
                         to begin managing faculty, students, and curriculum.
                     </Typography>
 
-                    {/* The Form 'Paper' - Using same spacing as login form */}
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: 400 }}>
                         <Stack spacing={2.5}>
-    <Box>
-        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
-            Full Name
-        </Typography>
-        <TextField
-            required fullWidth
-            id="adminName" name="adminName"
-            autoComplete="name" autoFocus
-            placeholder="Enter your full name"
-            error={errors.adminName}
-            helperText={errors.adminName && 'Name is required'}
-            onChange={handleInputChange}
-            // Remove the 'label' prop entirely to stop the "double label" effect
-        />
-    </Box>
+                            
+                            {/* CRITICAL UI FIX: Wrapped inputs in proper FormControls to layout correctly without built-in labels */}
+                            <FormControl error={errors.adminName} fullWidth>
+                                <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
+                                    Full Name
+                                </Typography>
+                                <OutlinedInput
+                                    required
+                                    id="adminName" name="adminName"
+                                    autoComplete="name" autoFocus
+                                    placeholder="Enter your full name"
+                                    onChange={handleInputChange}
+                                />
+                                {errors.adminName && <FormHelperText>Name is required</FormHelperText>}
+                            </FormControl>
 
-    <Box>
-        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
-            Institution Name
-        </Typography>
-        <TextField
-            required fullWidth
-            id="schoolName" name="schoolName"
-            placeholder="Enter school name"
-            error={errors.schoolName}
-            helperText={errors.schoolName && 'School name is required'}
-            onChange={handleInputChange}
-        />
-    </Box>
+                            <FormControl error={errors.schoolName} fullWidth>
+                                <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
+                                    Institution Name
+                                </Typography>
+                                <OutlinedInput
+                                    required
+                                    id="schoolName" name="schoolName"
+                                    placeholder="Enter school name"
+                                    onChange={handleInputChange}
+                                />
+                                {errors.schoolName && <FormHelperText>School name is required</FormHelperText>}
+                            </FormControl>
 
-    <Box>
-        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
-            Official Email Address
-        </Typography>
-        <TextField
-            required fullWidth
-            id="email" name="email"
-            autoComplete="email"
-            placeholder="email@institution.com"
-            error={errors.email}
-            helperText={errors.email && 'Email is required'}
-            onChange={handleInputChange}
-        />
-    </Box>
+                            <FormControl error={errors.email} fullWidth>
+                                <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
+                                    Official Email Address
+                                </Typography>
+                                <OutlinedInput
+                                    required
+                                    id="email" name="email"
+                                    autoComplete="email"
+                                    placeholder="email@institution.com"
+                                    onChange={handleInputChange}
+                                />
+                                {errors.email && <FormHelperText>Email is required</FormHelperText>}
+                            </FormControl>
 
-    <Box>
-        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
-            Secure Password
-        </Typography>
-        <TextField
-            required fullWidth
-            name="password"
-            type={toggle ? 'text' : 'password'}
-            id="password"
-            placeholder="••••••••"
-            error={errors.password}
-            helperText={errors.password && 'Password is required'}
-            onChange={handleInputChange}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton onClick={() => setToggle(!toggle)} edge="end">
-                            {toggle ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                ),
-            }}
-        />
-    </Box>
-</Stack>
+                            <FormControl error={errors.password} fullWidth>
+                                <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: UI.textSecondary }}>
+                                    Secure Password
+                                </Typography>
+                                <OutlinedInput
+                                    required
+                                    name="password"
+                                    type={toggle ? 'text' : 'password'}
+                                    id="password"
+                                    placeholder="••••••••"
+                                    onChange={handleInputChange}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => setToggle(!toggle)} edge="end">
+                                                {toggle ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                                {errors.password && <FormHelperText>Password is required</FormHelperText>}
+                            </FormControl>
+                        </Stack>
                         
                         <Box sx={{ mt: 1.5 }}>
                             <FormControlLabel
-                                control={<Checkbox value="remember" />}
+                                control={<Checkbox value="remember" required />}
                                 label="Agree to Terms & Conditions"
                             />
                         </Box>
@@ -205,7 +204,6 @@ const AdminRegisterPage = () => {
         </PageWrap>
     );
 }
-
 
 const PageWrap = styled.div`
     min-height: 100vh;

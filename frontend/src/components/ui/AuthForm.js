@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import AppButton from './AppButton';
 import { UI } from '../../theme/constants';
 
-const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
+const AuthForm = ({ role, fields, onSubmit, loading, errors = {}, title = "Log in to" }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -29,11 +29,11 @@ const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
 
       <Container maxWidth="sm">
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* CRITICAL FIX: Made dynamic using the title prop */}
           <Typography variant="h1" sx={{ textAlign: 'center', mb: 1 }}>
-            Log in to {role} Portal
+            {title} {role} Portal
           </Typography>
           
-          {/* SubText Suggestion: Using variant="body2" to match labels */}
           <Typography variant="body2" sx={{ textAlign: 'center', mb: 5, color: UI.textSecondary }}>
             Enter your credentials to access your dashboard.
           </Typography>
@@ -51,6 +51,8 @@ const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
                     name={field.name}
                     placeholder={field.placeholder}
                     autoFocus={field.autoFocus}
+                    // CRITICAL FIX: Ensures field data safety during validation re-renders
+                    defaultValue={field.defaultValue || ''} 
                     type={field.type === 'password' ? (showPassword ? 'text' : 'password') : field.type}
                     endAdornment={field.type === 'password' && (
                       <InputAdornment position="end">
@@ -65,7 +67,7 @@ const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
               ))}
             </Stack>
 
-            {role !== 'Student' && (
+            {role !== 'Student' && title === "Log in to" && ( // Only show if it's actually a login action
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1.5 }}>
                 <FormControlLabel
                   control={<Checkbox size="small" />}
@@ -83,7 +85,7 @@ const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
               </AppButton>
             </Box>
 
-            {role === 'Admin' && (
+            {role === 'Admin' && title === "Log in to" && (
               <Typography variant="body2" sx={{ textAlign: 'center', mt: 3, color: UI.textMuted }}>
                 Need a portal?{' '}
                 <Link component={RouterLink} to="/AdminRegister" sx={{ fontWeight: 600 }}>
@@ -97,8 +99,6 @@ const AuthForm = ({ role, fields, onSubmit, loading, errors = {} }) => {
     </PageWrap>
   );
 };
-
-// for layout positioning
 
 const PageWrap = styled.div`
   min-height: 100vh;

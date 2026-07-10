@@ -1,0 +1,188 @@
+.security-container {
+  all: unset;
+}
+
+.security-content {
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* HEADER */
+.security-header-fixed {
+  width: 100%;
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.security-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.security-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(121, 101, 176, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BUTTONS */
+.security-secondary-button {
+  background: #f3f0ff;
+  border: 1px solid rgba(121, 101, 176, 0.2);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #7965b0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.security-secondary-button:hover {
+  background: #ede9fe;
+  transform: translateY(-1px);
+}
+
+.security-secondary-button:active {
+  transform: scale(0.98);
+}
+
+/* FILTERS */
+.security-filter-panel {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* INPUT */
+.security-input {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  min-width: 180px;
+}
+
+.security-input[type="text"] {
+  flex: 1;
+}
+
+.security-input:focus {
+  border-color: #7965b0;
+  box-shadow: 0 0 0 2px rgba(121, 101, 176, 0.15);
+  outline: none;
+}
+
+/* TABLE WRAPPER */
+.security-table-wrapper {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  overflow: hidden;
+}
+
+/* TABLE */
+.security-table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+/* HEADER */
+.security-table thead {
+  background: #f8fafc;
+}
+
+.security-table th {
+  padding: 10px 12px;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e5e7eb;
+
+  /* Header */
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* CELLS */
+.security-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* ROW HOVER */
+.security-table tbody tr {
+  transition: background 0.12s ease;
+}
+
+.security-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* COLUMN HIERARCHY */
+
+/* Timestamp + Category (secondary) */
+.security-table td:nth-child(1),
+.security-table td:nth-child(2) {
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
+/* Action (primary) */
+.security-table td:nth-child(3) {
+  font-weight: 500;
+  color: #111827;
+}
+
+/* User + IP */
+.security-table td:nth-child(4),
+.security-table td:nth-child(5) {
+  color: #374151;
+}
+
+/* Hash*/
+.security-table td:last-child {
+  font-family: monospace;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  color: #6b7280;
+}
+
+/* STATUS */
+.tampered {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.verified {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* EMPTY STATE */
+.security-table td[colspan] {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* FOOTER */
+.security-footer {
+  width: 100%;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}

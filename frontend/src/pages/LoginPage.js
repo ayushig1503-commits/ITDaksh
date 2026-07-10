@@ -27,27 +27,37 @@ const LoginPage = ({ role }) => {
     ];
   }, [role]);
 
-  // CRITICAL FIX: Map the backend string error to specific form fields so AuthForm can display them inline
   const fieldErrors = useMemo(() => {
     if (!error || typeof error !== 'string') return {};
     
     const lowerError = error.toLowerCase();
     const mapped = {};
 
+    // 1. Check for password errors
     if (lowerError.includes('password')) {
       mapped.password = error;
-    } else if (lowerError.includes('email') || lowerError.includes('user not found')) {
+    } 
+    
+    // 2. Check for email/user errors (Independent 'if' allows both to trigger!)
+    if (lowerError.includes('email') || lowerError.includes('user not found')) {
       mapped.email = error;
-    } else if (lowerError.includes('roll')) {
+    } 
+    
+    // 3. Check for student unique identifiers
+    if (lowerError.includes('roll')) {
       mapped.rollNumber = error;
-    } else if (lowerError.includes('name')) {
+    } 
+    if (lowerError.includes('student name')) {
       mapped.studentName = error;
-    } else {
-      // Fallback for general errors (like "All fields are required")
+    }
+
+    // 4. Fallback: If it's a generic validation message that didn't catch above, highlight everything
+    if (Object.keys(mapped).length === 0) {
       fields.forEach(field => {
         mapped[field.name] = error;
       });
     }
+
     return mapped;
   }, [error, fields]);
 

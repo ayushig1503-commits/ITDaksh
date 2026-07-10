@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import {
-  Grid,
   Paper,
   Box,
   Typography
@@ -59,7 +58,6 @@ const getStats = (studentsList, sclassesList, teachersList) => [
 
 const AdminHomePage = () => {
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const { studentsList } = useSelector((state) => state.student);
   const { sclassesList } = useSelector((state) => state.sclass);

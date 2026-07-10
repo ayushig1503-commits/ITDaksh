@@ -7,21 +7,15 @@ import {
   Typography,
   Stack,
   TextField,
-  CircularProgress,
   Tabs,
   Tab,
   IconButton,
   Grid,
   MenuItem,
-  Tooltip,
 } from "@mui/material";
 
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TableRowsRoundedIcon from "@mui/icons-material/TableRowsRounded";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { deleteUser, getUserDetails, updateUser } from "../../../redux/userRelated/userHandle";
 import { getSubjectList } from "../../../redux/sclassRelated/sclassHandle";

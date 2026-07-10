@@ -47,10 +47,10 @@ const ShowTeachers = () => {
     }
   }, [dispatch, currentUser?._id]);
 
-  const deleteHandler = () => {
-    setMessage("Sorry, the delete function has been disabled for now.");
-    setShowPopup(true);
-  };
+  // const deleteHandler = () => {
+  //   setMessage("Sorry, the delete function has been disabled for now.");
+  //   setShowPopup(true);
+  // };
 
 const rows = useMemo(() => {
     if (!Array.isArray(teachersList)) return [];

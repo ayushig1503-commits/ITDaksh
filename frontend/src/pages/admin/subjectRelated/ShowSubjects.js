@@ -26,7 +26,6 @@ const ShowSubjects = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [showPopup, setShowPopup] = useState(false);
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (currentUser?._id) {

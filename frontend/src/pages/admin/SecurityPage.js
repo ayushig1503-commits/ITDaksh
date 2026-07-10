@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 import {
-  SecurityOutlined as SecurityIcon,
   Refresh as RefreshIcon,
   FileDownload as ExportIcon,
   SearchOutlined

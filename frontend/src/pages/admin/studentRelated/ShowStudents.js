@@ -44,7 +44,6 @@ const ShowStudents = () => {
   const { sclassesList = [] } = useSelector((state) => state.sclass);
 
   const [showPopup, setShowPopup] = useState(false);
-  const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSection, setSelectedSection] = useState("");

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
     Box, 
     Typography, 
-    Paper, 
     Checkbox, 
     FormControlLabel, 
     TextField, 

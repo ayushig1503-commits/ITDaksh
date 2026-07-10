@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   Table, TableBody, TableContainer, TableHead, TableRow, TableCell,
-  TablePagination, Paper, Box, Drawer, Typography,
-  IconButton, Stack, Chip, Divider, Tooltip
+  TablePagination, Paper, Box, Drawer, Typography, Stack, Chip, Divider, Tooltip
 } from '@mui/material';
 
 const TableViewTemplate = ({ columns, rows }) => {

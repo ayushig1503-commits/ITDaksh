@@ -19,7 +19,7 @@ const CATEGORY_COLORS = {
 
 const PlannerPanel = ({ notices = [] }) => {
   const theme = useTheme();
-  const { spacingTokens: SP, palette, shape } = theme;
+  const { spacingTokens: SP, palette } = theme;
 
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);

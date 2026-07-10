@@ -47,6 +47,7 @@ const ShowStudents = () => {
   const [search, setSearch] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
+  const [message, setMessage] = useState("");
 
   /* ───────────────── FETCH ───────────────── */
   useEffect(() => {

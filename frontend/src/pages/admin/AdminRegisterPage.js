@@ -73,21 +73,22 @@ const AdminRegisterPage = () => {
         setErrors(prev => ({ ...prev, [name]: false }));
     };
 
-    useEffect(() => {
-        if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
-            navigate('/Admin');
-        } else if (status === 'failed') {
-            setMessage(response);
+useEffect(() => {
+    if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
+        navigate('/Admin');
+    } else if (status === 'failed') {
+        setMessage(response);
+        setShowPopup(true);
+        setLoader(false);
+    } else if (status === 'error') {
+        setLoader(false);
+        // CRITICAL FIX: Only show popup if there is an actual, explicit error message returned
+        if (error && typeof error === 'string') {
+            setMessage(error);
             setShowPopup(true);
-            setLoader(false);
-        } else if (status === 'error' || error) { // CRITICAL FIX: Turned off loader if standard network error hits
-            setLoader(false);
-            if (error) {
-                setMessage(typeof error === 'string' ? error : "An error occurred");
-                setShowPopup(true);
-            }
         }
-    }, [status, currentUser, currentRole, navigate, error, response]);
+    }
+}, [status, currentUser, currentRole, navigate, error, response]);
 
     return (
         <PageWrap>

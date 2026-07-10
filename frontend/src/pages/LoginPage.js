@@ -27,7 +27,30 @@ const LoginPage = ({ role }) => {
     ];
   }, [role]);
 
-  // Clean data comes directly from AuthForm
+  // CRITICAL FIX: Map the backend string error to specific form fields so AuthForm can display them inline
+  const fieldErrors = useMemo(() => {
+    if (!error || typeof error !== 'string') return {};
+    
+    const lowerError = error.toLowerCase();
+    const mapped = {};
+
+    if (lowerError.includes('password')) {
+      mapped.password = error;
+    } else if (lowerError.includes('email') || lowerError.includes('user not found')) {
+      mapped.email = error;
+    } else if (lowerError.includes('roll')) {
+      mapped.rollNumber = error;
+    } else if (lowerError.includes('name')) {
+      mapped.studentName = error;
+    } else {
+      // Fallback for general errors (like "All fields are required")
+      fields.forEach(field => {
+        mapped[field.name] = error;
+      });
+    }
+    return mapped;
+  }, [error, fields]);
+
   const handleLogin = (data) => {
     dispatch(loginUser(data, role));
   };
@@ -45,7 +68,7 @@ const LoginPage = ({ role }) => {
         fields={fields}
         onSubmit={handleLogin}
         loading={loading}
-        serverError={error}
+        errors={fieldErrors} // FIXED: Changed from serverError={error} to match AuthForm's API
       />
       {status === 'error' && <Popup message={error} />}
     </>
